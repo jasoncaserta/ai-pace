@@ -35,7 +35,6 @@ final class StatusItemController: NSObject, NSMenuDelegate, NSPopoverDelegate {
         createStatusItem(reason: .launch)
         configurePopover()
         bindStore()
-        registerLifecycleRepairTriggers()
     }
 
     deinit {
@@ -48,6 +47,7 @@ final class StatusItemController: NSObject, NSMenuDelegate, NSPopoverDelegate {
     private func createStatusItem(reason: StatusItemRepairReason) {
         logger.info("Creating status item: \(reason.rawValue, privacy: .public)")
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        statusItem?.isVisible = true
         statusItemCreatedAt = Date()
         configureStatusItem(reason: reason)
     }
