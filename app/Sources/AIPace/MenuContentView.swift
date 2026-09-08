@@ -1,6 +1,17 @@
 import AppKit
 import SwiftUI
 
+private extension ProviderKind {
+    var dashboardURL: URL {
+        switch self {
+        case .claude:
+            return URL(string: "https://claude.ai/settings/usage")!
+        case .codex:
+            return URL(string: "https://chatgpt.com/codex/cloud/settings/analytics#usage")!
+        }
+    }
+}
+
 // MARK: - Main Popover
 
 struct MenuContentView: View {
@@ -60,7 +71,8 @@ struct MenuContentView: View {
             HStack {
                 if let ts = store.lastUpdated {
                     Text(ts.formatted(date: .omitted, time: .shortened))
-                        .font(.system(size: 11, design: .monospaced))
+                        .font(.system(size: 11))
+                        .monospacedDigit()
                         .foregroundStyle(.tertiary)
                 }
                 Spacer()
@@ -199,6 +211,15 @@ private struct ProviderCard: View {
                         .font(.system(size: 12))
                         .foregroundStyle(.secondary)
                 }
+                Button {
+                    NSWorkspace.shared.open(snapshot.provider.dashboardURL)
+                } label: {
+                    Image(systemName: "arrow.up.right.square")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .pointerOnHover()
             }
 
             // Usage rows
@@ -296,7 +317,8 @@ private struct UsageRow: View {
                 Group {
                     if let resetsAt = window.resetsAt {
                         Text(formatReset(resetsAt))
-                            .font(.system(size: 12, design: .monospaced))
+                            .font(.system(size: 12))
+                            .monospacedDigit()
                             .foregroundStyle(.tertiary)
                     }
                 }
@@ -817,7 +839,7 @@ private struct AgentStatusRow: View {
             return .green
         case .loading:
             return .secondary
-        case .missingAuth, .accessDenied, .sessionExpired, .notInstalled, .notLoggedIn:
+        case .missingAuth, .accessDenied, .sessionExpired, .notInstalled, .notLoggedIn, .rateLimited:
             return .orange
         case .error:
             return .red
