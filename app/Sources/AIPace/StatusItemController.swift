@@ -6,7 +6,7 @@ import SwiftUI
 @MainActor
 final class StatusItemController: NSObject, NSMenuDelegate, NSPopoverDelegate {
     private let popoverWidth: CGFloat = 440
-    private static let statusItemLengthPadding: CGFloat = 12
+    private static let statusItemLengthPadding: CGFloat = 0
     private static let minimumStatusItemLength: CGFloat = 32
 
     private let store: UsageStore

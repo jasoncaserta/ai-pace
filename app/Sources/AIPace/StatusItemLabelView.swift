@@ -25,7 +25,7 @@ struct StatusItemLabelView: View {
                 pill(text: fallbackText, color: Color(red: 0.36, green: 0.38, blue: 0.42))
             }
         }
-        .padding(.horizontal, 4)
+        .padding(.horizontal, 0)
         .frame(height: 22)
         .allowsHitTesting(false)
     }
